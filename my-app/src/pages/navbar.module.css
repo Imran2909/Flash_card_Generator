@@ -1,0 +1,19 @@
+.nav{
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-right: 24px;
+    display: flex;
+    gap: 30px;
+    border-bottom: 1px solid rgb(70, 70, 70);
+    margin-top: 4px;
+    padding: px;
+}
+.activeNavlink{
+    color: rgb(255, 0, 0);
+    font-weight: 500;
+    border-bottom: 3px solid red;
+    padding-bottom: 8px;
+}
+.nonActive{
+    /* border-bottom: 1px solid rgb(0, 0, 0); */
+}
