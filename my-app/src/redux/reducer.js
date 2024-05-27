@@ -8,7 +8,7 @@ export const reducer = (state, { type, payload }) => {
             };
         case HANDLE_CARD_DATA:
             return {
-                ...state, cardData: payload
+                ...state, cardData: [...payload]
             };
         case HANDLE_ADD_CARD_DATA:
             return {
@@ -16,7 +16,9 @@ export const reducer = (state, { type, payload }) => {
             };
         case HANDLE_EDIT_CARD_DATA:
             return {
-                ...state, allCardData: [...payload]
+                ...state, allCardData: state.allCardData.map(card =>
+                    card.id === payload.id ? payload : card
+                )
             };
         case GET_CARD_DATA:
             return {
@@ -30,3 +32,10 @@ export const reducer = (state, { type, payload }) => {
             return state;
     }
 };
+
+
+
+
+
+
+

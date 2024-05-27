@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../styles/newcrad.module.css';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import axios from 'axios';
@@ -14,17 +14,23 @@ function NewFlashcard() {
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState("")
     const groupData = useSelector((store) => store.groupData)
+    const allCardData = useSelector((store) => store.allCardData)
+    const cardData = useSelector((store) => store.cardData)
+    const DATA = useSelector((store) => store.data)
     const store = useSelector((store) => store)
     const dispatch = useDispatch()
 
     const [card, setCard] = useState([])
+
     let obj = {
         groupName,
         description,
         image
     }
 
-
+useEffect(()=>{
+    dispatch(handleGroupData(obj))
+},[])
 
     const handleGroupNameChange = (e) => {
         setGroupName(e.target.value);
@@ -32,7 +38,7 @@ function NewFlashcard() {
             groupName: e.target.value, description, image
         }
         dispatch(handleGroupData(obj))
-        console.log(groupData);
+        // console.log(groupData);
 
     };
 
@@ -42,11 +48,24 @@ function NewFlashcard() {
             groupName, description: e.target.value, image
         }
         dispatch(handleGroupData(obj))
-        console.log(groupData);
+        // console.log(groupData);
     };
 
-    const handleCreate = () => {
-        console.log(store);
+    const handleCreate = async() => {
+        // console.log("g", groupData);
+        console.log("c", cardData);
+        let vals={
+            groupName:groupData.groupName, description:groupData.description,image:groupData.image,cards:cardData
+        }
+        try {
+            const cards=  await axios.post('http://localhost:8080/addCard',vals)
+            console.log('Data successfully submitted:');
+        } catch (error) {
+            console.error('There was an error submitting the data!', error);
+        }
+      console.log("create",(cardData))
+
+
     }
 
     const handleImageChange = (e) => {
@@ -60,13 +79,12 @@ function NewFlashcard() {
                 obj = {
                     groupName, description, image: reader.result
                 }
+                dispatch(handleGroupData(obj))
             };
             reader.onerror = (error) => {
-                console.log("Error: ", error);
+                // console.log("Error: ", error);
             };
         }
-        dispatch(handleGroupData(obj))
-        console.log(groupData);
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -81,13 +99,12 @@ function NewFlashcard() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            console.log('Flashcard saved:', response.data);
+            // console.log('Flashcard saved:', response.data);
         } catch (error) {
             console.error('Error saving flashcard:', error);
         }
     };
-
-    const handleEdit=()=>{
+    const handleEdit = () => {
         setImage(null)
     }
 
@@ -106,11 +123,7 @@ function NewFlashcard() {
                         onChange={handleGroupNameChange}
                         required
                     />
-
-
-
                     {/* ====================================================================== */}
-
                     {
                         image === null ?
                             <label className={styles.but}>
@@ -129,20 +142,17 @@ function NewFlashcard() {
                                 />
                             </label>
                             :
-                            <div  className={styles.alt} >
+                            <div className={styles.alt} >
                                 <div>
-                                <img src={image} alt="" />
+                                    <img src={image} alt="" />
                                 </div>
                                 <div>
-                                <BiEdit className={styles.edit} onClick={handleEdit} />
-                                <RiDeleteBin5Line className={styles.delete} onClick={handleEdit}  />
+                                    <BiEdit className={styles.edit} onClick={handleEdit} />
+                                    <RiDeleteBin5Line className={styles.delete} onClick={handleEdit} />
                                 </div>
                             </div>
-
                     }
                     {/* ======================================================================== */}
-
-
 
                 </div>
                 <div className={styles.disc}>

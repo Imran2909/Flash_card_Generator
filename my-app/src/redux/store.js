@@ -3,10 +3,12 @@ import { reducer } from './reducer'
 
 const initialState={
     groupData:[],
-    cardData:[],
+    cardData:[],//------------
     allCardData:[],
     data:[]
 }
 
 
 export const store= legacy_createStore(reducer,initialState)
+
+
