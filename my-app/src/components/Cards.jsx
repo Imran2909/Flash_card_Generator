@@ -7,8 +7,8 @@ import { Wrap, WrapItem, useToast, Button } from '@chakra-ui/react';
 
 function Cards() {
     const [data, setData] = useState([])
-    const [count, setCount] = useState(1);
     const cardData = useSelector((store) => store.cardData);
+    const [count, setCount] = useState( cardData.length+1);
     const groupData = useSelector((store) => store.groupData);
     const dispatch = useDispatch();
     const toast = useToast()
@@ -24,11 +24,11 @@ function Cards() {
         //       })
         // }else{
             console.log(count);
-            const val = { Id: count, term: "", def: "", image: "" };
+            const val = { Id: count, term: "", def: "", image: null };
             const updatedCardData = [...cardData, val];
             dispatch(handleCardData(updatedCardData));
             setCount(count + 1);
-            // console.log("Updated card data:", updatedCardData);
+            console.log("Updated card data:", updatedCardData);
         // }
     };
 
@@ -45,6 +45,9 @@ function Cards() {
 
     return (
         <div className={styles.box}>
+            {/* {
+                console.log("ok")
+            } */}
             {
                 data.map((elem, index) => (
                     <SingleCrad count={count - 1} {...elem} key={index} />
