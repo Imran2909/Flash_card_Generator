@@ -1,7 +1,108 @@
-.cont{
-    border: 1px solid red;
-    height: 500px;
+.cont {
     width: 94%;
     margin: auto;
     margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
 }
+
+.spinnerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    grid-column: span 3;
+}
+
+.spinner {
+    border: 10px solid rgba(0, 0, 0, 0.1);
+    border-top: 10px solid #f44336;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.cardContainer {
+    position: relative;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    background-color: #fafafa;
+}
+
+.imagePlaceholder {
+    background-color: #e0f7fa;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 16px;
+    border-radius: 50%; /* Making the container round */
+    overflow: hidden; /* Ensuring the image stays within the rounded container */
+}
+
+.imagePlaceholder img {
+    width: 100%; /* Making the image fill the container */
+    height: 100%; /* Making the image fill the container */
+    object-fit: cover; /* Ensuring the image maintains its aspect ratio */
+    border-radius: 50%; /* Making the image itself round */
+}
+
+
+.title {
+    font-size: 1.25rem;
+    margin: 8px 0;
+}
+
+.description {
+    font-size: 0.875rem;
+    color: #666;
+    margin: 8px 0;
+}
+
+.cardCount {
+    font-size: 0.875rem;
+    color: #666;
+    margin: 8px 0;
+}
+
+.viewButton {
+    background-color: #fff;
+    border: 1px solid #f44336;
+    color: #f44336;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.viewButton:hover {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.closeButton {
+    position: absolute;
+    top: 12px;
+    right: 22px;
+    background-color: transparent;
+    color: #f44336;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+  
+  .closeButton:hover {
+    color: #ff0000; /* Darker red on hover */
+  }

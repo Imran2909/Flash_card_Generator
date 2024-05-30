@@ -32,6 +32,20 @@ try {
 }
 })
 
+app.delete("/cards/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+      const deletedCard = await cardModel.findByIdAndDelete(id);
+      if (!deletedCard) {
+        return res.status(404).send({ msg: "Card not found" });
+      }
+      const data = await cardModel.find({})
+      res.send({ msg: "Card deleted successfully", data: data });
+    } catch (error) {
+      res.send({ msg: "Cannot delete the card", error: error.message });
+    }
+  });
+
 app.listen(8080, async () => {
     try {
         await connection;

@@ -16,7 +16,7 @@ function Cards() {
 
     const handleAdd = () => {
         console.log(groupData);
-        if (groupData.groupName === "" || groupData.description === "" || groupData.image === null) {
+        if (groupData.groupName === "" || groupData.description === "" ) {
             toast({
                 title: `Please fill all the group data`,
                 position: "top",

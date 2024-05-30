@@ -1,33 +1,23 @@
-import { GET_CARD_DATA, HANDLE_ADD_CARD_DATA, HANDLE_CARD_DATA, HANDLE_EDIT_CARD_DATA, HANDLE_GROUP_DATA, DELETE_CARD_DATA } from "./actionTypes";
+import { GET_CARD_DATA, HANDLE_ADD_CARD_DATA, HANDLE_CARD_DATA, HANDLE_GROUP_DATA, GET_DATA_SUCCESS, GET_DATA_FAILURE, REQUEST_DATA, DELETE_DATA_SUCCESS } from "./actionTypes";
 
 export const reducer = (state, { type, payload }) => {
     switch (type) {
         case HANDLE_GROUP_DATA:
-            return {
-                ...state, groupData: payload
-            };
+            return { ...state, groupData: payload };
         case HANDLE_CARD_DATA:
-            return {
-                ...state, cardData: [...payload]
-            };
+            return { ...state, cardData: [...payload] };
         case HANDLE_ADD_CARD_DATA:
-            return {
-                ...state, allCardData: payload, cardData: []
-            };
-        case HANDLE_EDIT_CARD_DATA:
-            return {
-                ...state, allCardData: state.allCardData.map(card =>
-                    card.id === payload.id ? payload : card
-                )
-            };
+            return { ...state, allCardData: payload, cardData: [] };
         case GET_CARD_DATA:
-            return {
-                ...state
-            };
-        case DELETE_CARD_DATA:
-            return {
-                ...state, allCardData: state.allCardData.filter(card => card.id !== payload)
-            };
+            return { ...state };
+        case REQUEST_DATA:
+            return { ...state, isLoading: true, isError: false, }
+        case GET_DATA_SUCCESS:
+            return { ...state, isLoading: false, isError: false, allData: payload }
+        case GET_DATA_FAILURE:
+            return { ...state, isLoading: false, isError: true }
+        case DELETE_DATA_SUCCESS:
+            return { ...state, isLoading: false, isError: false, allData: payload }
         default:
             return state;
     }
