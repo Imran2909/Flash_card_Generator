@@ -6,7 +6,6 @@ function CreateFlashcard() {
     return (
         
         <div >
-            {/* top logo */}
 
             <div className='  '>
                 <div className=" bg-gray mx-5 my-3 ">
@@ -24,7 +23,6 @@ function CreateFlashcard() {
 
             <div className={styles.back}  >
   
-            {/* title */}
               
                 <div>
                     <div className={styles.flash} >
@@ -32,7 +30,6 @@ function CreateFlashcard() {
                     </div>
                 </div>
 
-            {/* navbar */}
 
             <div>
                 <Navbar/>

@@ -5,30 +5,19 @@ import { handleCardData, handleDeleteCardData, handleEditCardData } from '../red
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { BiEdit } from 'react-icons/bi';
 import { useEffect } from 'react';
-import {
-    Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel,
-    Input,
-    useDisclosure,
-} from '@chakra-ui/react';
-
 
 function SingleCrad(props) {
     const [term, setTerm] = useState("");
     const [def, setDef] = useState("");
     const [image, setImage] = useState(null);
-    const [editterm, seteditTerm] = useState("");
-    const [editdef, seteditDef] = useState("");
-    const [editimage, seteditImage] = useState(null);
-    const [deleted, setDeleted] = useState(1)
     const dispatch = useDispatch();
     const cardData = useSelector((store) => store.cardData)
-    const allCardData = useSelector((store) => store.allCardData)
 
 
     const deleteCard = () => {
         let arr = cardData.filter(item => item.Id !== props.Id);
         let narr = arr.map((el,ind)=>{
-            return {...el,Id: +ind + +1}
+            return {...el}
         })
         dispatch(handleCardData(narr))
         console.log("dd", narr);
@@ -36,18 +25,14 @@ function SingleCrad(props) {
 
     const handleTerms = (e) => {
         setTerm(e.target.value);
-        let ith = (+(props.Id) - 1 )
-        console.log(ith);
-        cardData[ith].term = e.target.value
+        cardData[props.index].term = e.target.value
         console.log(cardData);
         dispatch(handleCardData(cardData))
     };
 
     const handleDef = (e) => {
         setDef(e.target.value);
-        let ith = (+(props.Id) - 1)
-        cardData[ith].def = e.target.value
-        console.log(ith);
+        cardData[props.index].def = e.target.value
         console.log(cardData);
         dispatch(handleCardData(cardData))
     };
@@ -55,9 +40,7 @@ function SingleCrad(props) {
     const editImage = (e) => {
         setImage(null);
         console.log(props.Id);
-        let ith = (+(props.Id) - 1)
-        cardData[ith].image = null
-        console.log(ith);
+        cardData[props.index].image = null
         console.log(cardData);
         dispatch(handleCardData(cardData))
     };
@@ -69,8 +52,7 @@ function SingleCrad(props) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => {
-                let ith = (+(props.Id) - 1)
-                cardData[ith].image = reader.result
+                cardData[props.index].image = reader.result
                 console.log(cardData);
                 dispatch(handleCardData(cardData))
                 setImage(reader.result);
@@ -78,20 +60,15 @@ function SingleCrad(props) {
         }
     };
 
-    const getData = () => {
-        let arr = [...cardData]
-        dispatch(handleCardData(arr))
-    }
 
     useEffect(() => {
-        // getData()
     }, [image, term, def])
 
     return (
         <div>
             <div className={styles.wrap}>
                 <div className={styles.counts}>
-                    {props.Id}
+                    {props.index + 1 }
                 </div>
                 <div>
                     <form action="" className={styles.fields}>

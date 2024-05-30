@@ -6,7 +6,8 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { BiEdit } from "react-icons/bi";
 import Cards from './Cards';
 import { useDispatch, useSelector } from 'react-redux'
-import { handleGroupData } from '../redux/action';
+import { handleCardData, handleGroupData } from '../redux/action';
+import { Wrap, WrapItem, useToast, Button } from '@chakra-ui/react';
 
 function NewFlashcard() {
     const [groupName, setGroupName] = useState('');
@@ -19,9 +20,10 @@ function NewFlashcard() {
     const DATA = useSelector((store) => store.data)
     const store = useSelector((store) => store)
     const dispatch = useDispatch()
+    const toast = useToast()
 
     const [card, setCard] = useState([])
-
+    let ec=false
     let obj = {
         groupName,
         description,
@@ -38,8 +40,6 @@ useEffect(()=>{
             groupName: e.target.value, description, image
         }
         dispatch(handleGroupData(obj))
-        // console.log(groupData);
-
     };
 
     const handleDescriptionChange = (e) => {
@@ -48,24 +48,59 @@ useEffect(()=>{
             groupName, description: e.target.value, image
         }
         dispatch(handleGroupData(obj))
-        // console.log(groupData);
     };
 
     const handleCreate = async() => {
-        // console.log("g", groupData);
         console.log("c", cardData);
         let vals={
             groupName:groupData.groupName, description:groupData.description,image:groupData.image,cards:cardData
         }
         try {
-            const cards=  await axios.post('http://localhost:8080/addCard',vals)
-            console.log('Data successfully submitted:');
-        } catch (error) {
-            console.error('There was an error submitting the data!', error);
-        }
-      console.log("create",(cardData))
+            cardData.length!==0 && cardData.forEach((el, index) => {
+                if (el.term == "" || el.def == "" || el.image == null) {
+                    ec=true
+                }
+            })
+            if (ec) {
+                toast({
+                    title: `Please fill all cards data`,
+                    position: "top",
+                    status: 'info',
+                    isClosable: true,
+                })
+                return
+            }
+                const cards=  await axios.post('http://localhost:8080/addCard',vals)
+                console.log('Data successfully submitted:');
+                dispatch(handleCardData([]))
+                toast({
+                    title: `Data added successfully 😀😀😀`,
+                    position: "top",
+                    status: 'success',
+                    isClosable: true,
+                })
+                setGroupName("")
+                setDescription("")
+                setImage(null)
 
+            } catch (error) {
+                console.error('There was an error submitting the data!', error);
+                toast({
+                    title: `Failed to add data 😞😞😞`,
+                    position: "top",
+                    status: 'erro',
+                    isClosable: true,
+                })
+            }
+            console.log("create",(cardData))
+            
 
+    }
+
+    const handleDelete=()=>{
+        setGroupName("")
+        setDescription("")
+        setImage(null)
     }
 
     const handleImageChange = (e) => {
@@ -75,14 +110,12 @@ useEffect(()=>{
             reader.readAsDataURL(file);
             reader.onload = () => {
                 setImage(reader.result);
-                // console.log(reader.result);
                 obj = {
                     groupName, description, image: reader.result
                 }
                 dispatch(handleGroupData(obj))
             };
             reader.onerror = (error) => {
-                // console.log("Error: ", error);
             };
         }
     };
@@ -99,7 +132,6 @@ useEffect(()=>{
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            // console.log('Flashcard saved:', response.data);
         } catch (error) {
             console.error('Error saving flashcard:', error);
         }
@@ -123,7 +155,6 @@ useEffect(()=>{
                         onChange={handleGroupNameChange}
                         required
                     />
-                    {/* ====================================================================== */}
                     {
                         image === null ?
                             <label className={styles.but}>
@@ -148,12 +179,10 @@ useEffect(()=>{
                                 </div>
                                 <div>
                                     <BiEdit className={styles.edit} onClick={handleEdit} />
-                                    <RiDeleteBin5Line className={styles.delete} onClick={handleEdit} />
+                                    <RiDeleteBin5Line className={styles.delete} onClick={handleDelete} />
                                 </div>
                             </div>
                     }
-                    {/* ======================================================================== */}
-
                 </div>
                 <div className={styles.disc}>
                     <p>Add description</p>

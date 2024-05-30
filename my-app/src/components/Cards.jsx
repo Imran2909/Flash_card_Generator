@@ -8,49 +8,64 @@ import { Wrap, WrapItem, useToast, Button } from '@chakra-ui/react';
 function Cards() {
     const [data, setData] = useState([])
     const cardData = useSelector((store) => store.cardData);
-    const [count, setCount] = useState( cardData.length+1);
+    const [count, setCount] = useState(cardData.length + 1);
     const groupData = useSelector((store) => store.groupData);
     const dispatch = useDispatch();
     const toast = useToast()
-   
+    let ec=false
 
     const handleAdd = () => {
-        // if (groupData.groupName === "" || groupData.description === "" || groupData.image === null) {
-        //     toast({
-        //         title: `Please add all group data`,
-        //         position: "top",
-        //         status:'info',
-        //         isClosable: true,
-        //       })
-        // }else{
-            console.log(count);
-            const val = { Id: count, term: "", def: "", image: null };
-            const updatedCardData = [...cardData, val];
-            dispatch(handleCardData(updatedCardData));
-            setCount(count + 1);
-            console.log("Updated card data:", updatedCardData);
-        // }
+        console.log(groupData);
+        if (groupData.groupName === "" || groupData.description === "" || groupData.image === null) {
+            toast({
+                title: `Please fill all the group data`,
+                position: "top",
+                status: 'info',
+                isClosable: true,
+            })
+            return
+        }
+
+        else {
+            cardData.length!==0 && cardData.forEach((el, index) => {
+                if (el.term == "" || el.def == "" || el.image == null) {
+                    ec=true
+                }
+            })
+            if (ec) {
+                toast({
+                    title: `Please fill all cards data`,
+                    position: "top",
+                    status: 'info',
+                    isClosable: true,
+                })
+            } else {
+                console.log(count);
+                const val = { Id: count, term: "", def: "", image: null };
+                const updatedCardData = [...cardData, val];
+                dispatch(handleCardData(updatedCardData));
+                setCount(count + 1);
+                console.log("Updated card data:", updatedCardData);
+            }
+
+
+        }
     };
 
     const addData = () => {
         setData(cardData)
-        // console.log("data",cardData);
     }
 
 
     useEffect(() => {
         addData()
-        // console.log("from card.jsx");
     }, [count, cardData, data]);
 
     return (
         <div className={styles.box}>
-            {/* {
-                console.log("ok")
-            } */}
             {
                 data.map((elem, index) => (
-                    <SingleCrad count={count - 1} {...elem} key={index} />
+                    <SingleCrad {...elem} key={index} index={index} />
                 ))
             }
             <div className={styles.add} onClick={handleAdd}>
