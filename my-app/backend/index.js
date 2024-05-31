@@ -32,6 +32,16 @@ try {
 }
 })
 
+app.get("/card/:id",async(req,res)=>{
+    const { id } = req.params;
+try {
+    const data= await cardModel.find({_id:id})
+    res.send(data)
+} catch (error) {
+    res.send({"msg":"cannot save in db", "error":error.message})
+}
+})
+
 app.delete("/cards/:id", async (req, res) => {
     const { id } = req.params;
     try {

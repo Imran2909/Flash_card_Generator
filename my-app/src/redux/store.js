@@ -9,7 +9,8 @@ const initialState={
     data:[],
     isLoading:false,
     isError:false,
-    allData:[]
+    allData:[],
+    singleCard:[]
 }
 
 export const store= legacy_createStore(reducer,initialState,applyMiddleware(thunk))

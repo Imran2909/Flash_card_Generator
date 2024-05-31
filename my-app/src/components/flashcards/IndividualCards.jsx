@@ -49,6 +49,7 @@ import { ImCross } from "react-icons/im";
 import { useDispatch } from 'react-redux';
 import { deleteData } from '../../redux/action';
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, useDisclosure } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 function IndividualCards(props) {
   const dispatch = useDispatch();
@@ -57,7 +58,7 @@ function IndividualCards(props) {
 
   const deleteCard = () => {
     dispatch(deleteData(selectedId));
-    onClose(); 
+    onClose();
   };
 
   const openDeleteModal = (id) => {
@@ -77,7 +78,11 @@ function IndividualCards(props) {
           {props.description}
         </p>
         <p className={styles.cardCount}>{props.cards.length} cards</p>
-        <button className={styles.viewButton}>View Cards</button>
+        <button className={styles.viewButton}>
+          <Link to={`/flashcards/${props._id}`} >
+            View Cards
+          </Link>
+        </button>
       </div>
 
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
