@@ -25,7 +25,7 @@ app.post("/addCard", async (req, res) => {
 
 app.get("/cards",async(req,res)=>{
 try {
-    const data= await cardModel.find({})
+    const data= await cardModel.find({}).sort({ createdAt: -1 })
     res.send(data)
 } catch (error) {
     res.send({"msg":"cannot save in db", "error":error.message})

@@ -13,6 +13,7 @@ const cardSchema = new mongoose.Schema({
   cards:{
     type:Array  
   }
+  ,createdAt: { type: Date, default: Date.now }
 });
 
 const cardModel = mongoose.model("Card", cardSchema);

@@ -54,6 +54,7 @@ export const getSingleCard = (id) => async (dispatch) => {
     axios.get(`http://localhost:8080/card/${id}`).then((res) => {
         console.log("res",res.data);
             dispatch({ type: GET_SINGLE_CARD, payload: res.data });
+            console.log('action', res.data);
         }).catch((error) => {
             dispatch({ type: GET_DATA_FAILURE })
         })
