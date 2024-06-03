@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getSingleCard, requestData } from '../../redux/action';
 import styles from '../flashcards/singleCard.module.css';
 import { Button, useDisclosure } from '@chakra-ui/react';
+import { FaRegShareSquare } from "react-icons/fa";
+import { MdOutlineFileDownload } from "react-icons/md";
+import { FiPrinter } from "react-icons/fi";
 
 function FlashCard() {
     const { id } = useParams();
@@ -13,45 +16,41 @@ function FlashCard() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const navigate = useNavigate();
+    const contentRef = useRef(null);
+
 
     useEffect(() => {
         dispatch(requestData());
         dispatch(getSingleCard(id));
-    }, [dispatch, id]);
+    }, [dispatch, id, currentIndex]);
 
-    const handleNext = () => {
-        if (currentIndex < 7) {
-            setCurrentIndex(currentIndex + 1);
-        }
-    };
-
-    const handlePrev = () => {
-        if (currentIndex > 0) {
-            setCurrentIndex(currentIndex - 1);
-        }
-    };
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <button className={styles.backButton} onClick={() => navigate(-1)}>←</button>
-                <h1 className={styles.title}>{data && data.length > 0 ? data[0].groupName : "Loading..."}</h1>
+            <div className={styles.top} >
+                <div className={styles.header}>
+                    <button className={styles.backButton} onClick={() => navigate(-1)}>←</button>
+                    <h1 className={styles.title}>{data && data.length > 0 ? data[0].groupName : "Loading..."}</h1>
+                </div>
+                <p className={styles.description}>{data && data.length > 0 ? data[0].description : "Loading..."}</p>
             </div>
-            <p className={styles.description}>{data && data.length > 0 ? data[0].description : "Loading..."}</p>
             <div className={styles.content}>
                 <div className={styles.sidebar}>
                     <h2>Flashcards</h2>
-                    <hr />
+                    <hr /> <hr /> <br />
                     <div className={styles.flashcardList}>
-                        {Array.from({ length: 8 }, (_, i) => (
-                            <div
-                                key={i}
-                                className={`${styles.card} ${i === currentIndex ? styles.activeCard : ''}`}
-                                onClick={() => setCurrentIndex(i)}
-                            >
-                                Card {i + 1}
-                            </div>
-                        ))}
+                        {
+                            data && data.length > 0 && data[0].cards.map((el, ind) => {
+
+                                return <div
+                                    key={ind}
+                                    className={`${el.Id === currentIndex + 1 ? styles.activeCard : styles.card}`}
+                                    onClick={() => setCurrentIndex(el.Id - 1)}
+                                >
+                                    Card {ind + 1}
+                                </div>
+                            })
+                        }
                     </div>
                 </div>
                 <div className={styles.mainContent}>
@@ -64,25 +63,38 @@ function FlashCard() {
                         data && data.length > 0 && (
                             <>
                                 <div className={styles.imageContainer}>
-                                    <img src={data[currentIndex].image} alt="No Image Available" className={styles.image} />
+                                    <img src={data[0].cards[currentIndex].image} alt="No Image Available" className={styles.image} />
                                 </div>
                                 <div className={styles.cardDescription}>
-                                    <p>{data[currentIndex].definition}</p>
+                                    <p>{data[0].cards[currentIndex].def}</p>
                                 </div>
                             </>
                         )
                     )}
                 </div>
                 <div className={styles.actions}>
-                    <Button onClick={onOpen} className={styles.actionButton}>Share</Button>
-                    <Button className={styles.actionButton}>Download</Button>
-                    <Button className={styles.actionButton} onClick={() => window.print()}>Print</Button>
+                    <button onClick={onOpen} className={styles.actionBut}> <FaRegShareSquare className={styles.logo} />
+                        Share</button>
+                    <button className={styles.actionBut}  ><MdOutlineFileDownload className={styles.logo} />
+                        Download</button>
+                    <button className={styles.actionBut} onClick={() => window.print()}><FiPrinter className={styles.logo} />
+                        Print</button>
                 </div>
             </div>
-            <div className={styles.navButtons}>
-                <button className={styles.navButton} onClick={handlePrev}>{"<"}</button>
-                <span className={styles.navStatus}>{`${currentIndex + 1}/8`}</span>
-                <button className={styles.navButton} onClick={handleNext}>{">"}</button>
+            <div
+                className={styles.navButtons}>
+                <button className={currentIndex === 0 ? styles.disable : styles.navButton}
+                    onClick={() => {
+                        setCurrentIndex(+(+currentIndex - 1))
+                    }} >{"<"}</button>
+
+                <span className={styles.navStatus}>{`${currentIndex + 1} / ${data && data.length > 0 && data[0].cards.length || 'loading....'}`}</span>
+
+                <button
+                    className={currentIndex === (data && data.length > 0 && data[0].cards.length-1 )? styles.disable : styles.navButton}
+                    onClick={() => {
+                        setCurrentIndex(+(+currentIndex + 1))
+                    }}>{">"}</button>
             </div>
         </div>
     );

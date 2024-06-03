@@ -1,32 +1,72 @@
 .container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    padding: 20px;
+    height: auto;
+    padding: 10px 25px 10px 25px;
+}
+
+.top {
+    /* border: 1px solid red; */
+}
+
+.spinnerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    grid-column: span 3;
+    margin: auto;
+}
+
+.spinner {
+    border: 10px solid rgba(0, 0, 0, 0.1);
+    border-top: 10px solid #f44336;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .header {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .backButton {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    font-size: 24px;
+    font-size: 30px;
     margin-right: 20px;
 }
 
+.backButton:hover {
+    color: teal;
+    transition: 0.2s;
+}
+
 .title {
-    font-size: 32px;
+    font-size: 20px;
     font-weight: bold;
 }
 
 .description {
-    font-size: 18px;
-    margin-bottom: 20px;
+    font-size: 16px;
+    margin-bottom: 16px;
+    margin-left: 46px;
+    margin-top: -14px;
 }
 
 .content {
@@ -36,53 +76,81 @@
 }
 
 .sidebar {
+    /* border: 1px solid red; */
     width: 22%;
-    background-color: #f8f8f8;
+    background-color: #ffffff;
     padding: 20px;
+    border-radius: 6px;
+}
+
+.logo {
+    margin-right: 20px;
+    margin-left: -20px;
+    font-size: 18px;
 }
 
 .flashcardList {
+    /* border: 1px solid green; */
     display: flex;
     flex-direction: column;
+    margin-top: -8px;
 }
 
 .card {
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #fff;
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+    color: white;
     cursor: pointer;
+    width: 70%;
+    margin: auto;
+    margin-bottom: 12px;
+    text-align: center;
+    background-color: #007c41
 }
 
 .activeCard {
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #dcdcdc;
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+    color: white;
     cursor: pointer;
+    width: 70%;
+    margin: auto;
+    margin-bottom: 12px;
+    text-align: center;
+    background-color: #873598
 }
 
 .mainContent {
     width: 50%;
     padding: 20px;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
+    gap: 5%;
     align-items: center;
+    /* border: 1px solid red; */
+    background-color: white;
+    border-radius: 5px;
 }
 
 .imageContainer {
-    width: 100%;
+    width: 60%;
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
 }
 
 .image {
-    max-width: 40%;
+    max-width: 100%;
     height: auto;
+    border-radius: 8px;
 }
 
 .cardDescription {
-    width: 100%;
+    width: 35%;
     text-align: justify;
+    /* font-weight: 500; */
+    color: #707070;
+    font-size: 16px;
 }
 
 .actions {
@@ -90,16 +158,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.actionButton {
-    width: 100%;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin-bottom: 10px;
-    cursor: pointer;
 }
 
 .navButtons {
@@ -116,7 +174,33 @@
     cursor: pointer;
 }
 
+.disable {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.5;
+    /* Optional: makes the button look disabled */
+}
+
 .navStatus {
     margin: 0 20px;
     font-size: 18px;
+}
+.actionBut {
+    width: 100%;
+    background-color: teal;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actionBut .logo {
+    margin-right: 16px;
+    font-size: 20px;
 }
