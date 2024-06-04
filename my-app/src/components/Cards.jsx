@@ -15,7 +15,6 @@ function Cards() {
     let ec=false
 
     const handleAdd = () => {
-        // console.log(groupData);
         if (groupData.groupName === "" || groupData.description === "" ) {
             toast({
                 title: `Please fill all the group data`,
@@ -40,12 +39,10 @@ function Cards() {
                     isClosable: true,
                 })
             } else {
-                // console.log(count);
                 const val = { Id: count, term: "", def: "", image: null };
                 const updatedCardData = [...cardData, val];
                 dispatch(handleCardData(updatedCardData));
                 setCount(count + 1);
-                // console.log("Updated card data:", updatedCardData);
             }
 
 

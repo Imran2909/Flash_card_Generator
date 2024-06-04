@@ -23,16 +23,16 @@ function NewFlashcard() {
     const toast = useToast()
 
     const [card, setCard] = useState([])
-    let ec=false
+    let ec = false
     let obj = {
         groupName,
         description,
         image
     }
 
-useEffect(()=>{
-    dispatch(handleGroupData(obj))
-},[])
+    useEffect(() => {
+        dispatch(handleGroupData(obj))
+    }, [])
 
     const handleGroupNameChange = (e) => {
         setGroupName(e.target.value);
@@ -50,15 +50,14 @@ useEffect(()=>{
         dispatch(handleGroupData(obj))
     };
 
-    const handleCreate = async() => {
-        // console.log("c", cardData);
-        let vals={
-            groupName:groupData.groupName, description:groupData.description,image:groupData.image,cards:cardData
+    const handleCreate = async () => {
+        let vals = {
+            groupName: groupData.groupName, description: groupData.description, image: groupData.image, cards: cardData
         }
         try {
-            cardData.length!==0 && cardData.forEach((el, index) => {
+            cardData.length !== 0 && cardData.forEach((el, index) => {
                 if (el.term == "" || el.def == "" || el.image == null) {
-                    ec=true
+                    ec = true
                 }
             })
             if (ec) {
@@ -70,34 +69,31 @@ useEffect(()=>{
                 })
                 return
             }
-                const cards=  await axios.post('http://localhost:8080/addCard',vals)
-                console.log('Data successfully submitted:');
-                dispatch(handleCardData([]))
-                toast({
-                    title: `Data added successfully 😀😀😀`,
-                    position: "top",
-                    status: 'success',
-                    isClosable: true,
-                })
-                setGroupName("")
-                setDescription("")
-                setImage(null)
+            const cards = await axios.post('http://localhost:8080/addCard', vals)
+            console.log('Data successfully submitted:');
+            dispatch(handleCardData([]))
+            toast({
+                title: `Data added successfully 😀😀😀`,
+                position: "top",
+                status: 'success',
+                isClosable: true,
+            })
+            setGroupName("")
+            setDescription("")
+            setImage(null)
 
-            } catch (error) {
-                console.error('There was an error submitting the data!', error);
-                toast({
-                    title: `Failed to add data 😞😞😞`,
-                    position: "top",
-                    status: 'erro',
-                    isClosable: true,
-                })
-            }
-            // console.log("create",(cardData))
-            
-
+        } catch (error) {
+            console.error('There was an error submitting the data!', error);
+            toast({
+                title: `Failed to add data 😞😞😞`,
+                position: "top",
+                status: 'erro',
+                isClosable: true,
+            })
+        }
     }
 
-    const handleDelete=()=>{
+    const handleDelete = () => {
         setGroupName("")
         setDescription("")
         setImage(null)
