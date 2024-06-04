@@ -20,40 +20,40 @@ function SingleCrad(props) {
             return {...el}
         })
         dispatch(handleCardData(narr))
-        console.log("dd", narr);
+        // console.log("dd", narr);
     };
 
     const handleTerms = (e) => {
         setTerm(e.target.value);
         cardData[props.index].term = e.target.value
-        console.log(cardData);
+        // console.log(cardData);
         dispatch(handleCardData(cardData))
     };
 
     const handleDef = (e) => {
         setDef(e.target.value);
         cardData[props.index].def = e.target.value
-        console.log(cardData);
+        // console.log(cardData);
         dispatch(handleCardData(cardData))
     };
 
     const editImage = (e) => {
         setImage(null);
-        console.log(props.Id);
+        // console.log(props.Id);
         cardData[props.index].image = null
-        console.log(cardData);
+        // console.log(cardData);
         dispatch(handleCardData(cardData))
     };
 
     const handleImageChange = (e) => {
-        console.log("idd", props.Id);
+        // console.log("idd", props.Id);
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => {
                 cardData[props.index].image = reader.result
-                console.log(cardData);
+                // console.log(cardData);
                 dispatch(handleCardData(cardData))
                 setImage(reader.result);
             };

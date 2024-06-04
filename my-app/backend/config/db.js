@@ -1,7 +1,8 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+require('dotenv').config();
 
-const connection = mongoose.connect("mongodb+srv://imrans:imrans@cluster0.tbycsjm.mongodb.net/Flashcard?retryWrites=true&w=majority&appName=Cluster0")
+const connection = mongoose.connect(process.env.mongoURL);
 
-module.exports={
+module.exports = {
     connection
-}
+};

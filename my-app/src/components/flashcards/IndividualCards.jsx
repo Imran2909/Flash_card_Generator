@@ -30,9 +30,9 @@ function IndividualCards(props) {
         </div>
         <h3 className={styles.title}>{props.groupName}</h3>
         <p className={styles.description}>
-          {props.description}
+          {props.description.length > 100 ? props.description.slice(0, 40) + '...' : props.description}
         </p>
-        <p className={styles.cardCount}>{props.cards.length} cards</p>
+        <p className={styles.cardCount}> {props.cards.length} cards</p>
         <button className={styles.viewButton}>
           <Link to={`/flashcards/${props._id}`} >
             View Cards

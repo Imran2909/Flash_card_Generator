@@ -7,6 +7,14 @@ import { Button, useDisclosure } from '@chakra-ui/react';
 import { FaRegShareSquare } from "react-icons/fa";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { FiPrinter } from "react-icons/fi";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, } from '@chakra-ui/react'
+import { FaRegCopy } from "react-icons/fa";
+import { BsFacebook } from "react-icons/bs";
+import { FaLinkedin } from "react-icons/fa";
+import { FaWhatsappSquare } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
+import { IoMail } from "react-icons/io5";
+
 
 function FlashCard() {
     const { id } = useParams();
@@ -47,7 +55,8 @@ function FlashCard() {
                                     className={`${el.Id === currentIndex + 1 ? styles.activeCard : styles.card}`}
                                     onClick={() => setCurrentIndex(el.Id - 1)}
                                 >
-                                    Card {ind + 1}
+                                    {el.term}
+                                    {/* Card {ind + 1} */}
                                 </div>
                             })
                         }
@@ -75,7 +84,7 @@ function FlashCard() {
                 <div className={styles.actions}>
                     <button onClick={onOpen} className={styles.actionBut}> <FaRegShareSquare className={styles.logo} />
                         Share</button>
-                    <button className={styles.actionBut}  ><MdOutlineFileDownload className={styles.logo} />
+                    <button className={styles.actionBut}  onClick={() => window.print()} ><MdOutlineFileDownload className={styles.logo} />
                         Download</button>
                     <button className={styles.actionBut} onClick={() => window.print()}><FiPrinter className={styles.logo} />
                         Print</button>
@@ -91,11 +100,45 @@ function FlashCard() {
                 <span className={styles.navStatus}>{`${currentIndex + 1} / ${data && data.length > 0 && data[0].cards.length || 'loading....'}`}</span>
 
                 <button
-                    className={currentIndex === (data && data.length > 0 && data[0].cards.length-1 )? styles.disable : styles.navButton}
+                    className={currentIndex === (data && data.length > 0 && data[0].cards.length - 1) ? styles.disable : styles.navButton}
                     onClick={() => {
                         setCurrentIndex(+(+currentIndex + 1))
                     }}>{">"}</button>
             </div>
+            <div>
+                <>
+                    {/* <Button onClick={onOpen}>Open Modal</Button> */}
+                    <Modal isCentered onClose={onClose} isOpen={isOpen} motionPreset='slideInBottom' className={styles.modal} >
+                        <ModalOverlay />
+                        <ModalContent>
+                            <ModalHeader>Share</ModalHeader>
+                            <div className={styles.share} >
+                                <div className={styles.link} >
+                                    <div className={styles.shareLink} >
+                                        <p> <b>Link : </b>    http://localhost:3000/flashca...</p>
+                                        <FaRegCopy className={styles.copy} />
+                                        <FaRegShareSquare className={styles.fwd} />
+                                    </div>
+                                    <div className={styles.shares} >
+                                        <div><BsFacebook className={styles.media} onClick={()=>window.location.href = 'https://www.facebook.com'} /></div>
+                                        <div><FaLinkedin className={styles.media} onClick={()=>window.location.href = 'https://www.linkedin.com'} /></div>
+                                        <div><FaWhatsappSquare className={styles.media} onClick={()=>window.location.href = 'https://web.whatsapp.com'} /></div>
+                                        <div><FaTwitter className={styles.media} onClick={()=>window.location.href = 'https://www.twitter.com'} /></div>
+                                        <div><IoMail className={styles.media} onClick={()=>window.location.href = 'https://mail.google.com'} /></div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <ModalCloseButton />
+                            <ModalFooter>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
+                </>
+            </div>
+
         </div>
     );
 }

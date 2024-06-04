@@ -51,7 +51,7 @@ useEffect(()=>{
     };
 
     const handleCreate = async() => {
-        console.log("c", cardData);
+        // console.log("c", cardData);
         let vals={
             groupName:groupData.groupName, description:groupData.description,image:groupData.image,cards:cardData
         }
@@ -92,7 +92,7 @@ useEffect(()=>{
                     isClosable: true,
                 })
             }
-            console.log("create",(cardData))
+            // console.log("create",(cardData))
             
 
     }
